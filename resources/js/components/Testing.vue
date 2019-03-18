@@ -15,7 +15,7 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Add Engagement User</h3>
+            <h3 class="card-title">Map User to Engagement</h3>
 
             <div class="card-tools"></div>
           </div>
@@ -41,8 +41,8 @@
 
               <div class="form-group">
                 <select
-                  name="engagement"
-                  v-model="form.user_id"
+                  name="user"
+                  v-model="selected"
                   id="user"
                   class="form-control"
                   :class="{ 'is-invalid': form.errors.has('user') }"
@@ -55,6 +55,10 @@
                   ></option>
                 </select>
                 <has-error :form="form" field="user"></has-error>
+                <select :options="options" name="test" v-model="selected" multiple=true>
+
+                </select>
+                <!-- <v-select v-model="user_id" label="name" :options="option_users"></v-select> -->
               </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-primary">Map User</button>
@@ -69,14 +73,24 @@
 <script>
 export default {
   data() {
+  const options = {
+  apples: 'green',
+  bananas: 'yellow',
+  orange: 'orange'
+}
     return {
+      selected: [],
+      options,
+      select2data: [],
       engagements: {},
       users: {},
+      user_id: [],
       expanded: false,
       form: new Form({
         engagement_id: "",
         user_id: ""
-      })
+      }),
+
     };
   },
 
@@ -92,16 +106,43 @@ export default {
     },
 
     mapUsers() {
-      console.log('Engagement id is ' + this.form.engagement_id);
-      console.log('User id is ' + this.form.user_id);
-    }
+      console.log("Engagement id is " + this.form.engagement_id);
+      console.log("User id is " + this.selected);
+    },
+
+    formatOptions() {
+      this.select2data.push({ id: "", text: "Select" });
+      for (let key in this.options) {
+        this.select2data.push({ id: key, text: this.options[key] });
+      }
+    },
   },
+
   created() {
     this.loadEngagements();
     this.loadUsers();
   },
 
+  mounted: function() {
+    this.formatOptions();
+    let vm = this;
+  let select = $("#user")
+    $("#engagement").select2({
+      placeholder: "Select an Engagement",
+      allowClear: true
+    });
 
+    $("#user")
+      .select2({
+        placeholder: "Select an User",
+        allowClear: true,
+        data: this.select2data
+      })
+      .on("change", function() {
+        vm.$emit("input", select.val());
+      });
+    select.val(this.value).trigger("change");
+  }
 };
 </script>
 <style scoped>

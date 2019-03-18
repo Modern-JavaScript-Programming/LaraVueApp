@@ -20,6 +20,14 @@ class UserController extends Controller
     }
 
     /**
+     * Load all users.
+     */
+    public function loadAllUsers()
+    {
+        return User::where('type', '=', 'stakeholder')->get(['id', 'name']);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -95,9 +103,8 @@ class UserController extends Controller
     }
 
     /**
-     * Search Functionality
+     * Search Functionality.
      */
-
     public function search()
     {
         if ($search = \Request::get('q')) {

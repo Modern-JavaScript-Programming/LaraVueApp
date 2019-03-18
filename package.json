@@ -28,9 +28,11 @@
         "admin-lte": "^3.0.0-alpha.2",
         "laravel-vue-pagination": "^2.3.0",
         "moment": "^2.24.0",
+        "select2": "^4.0.6-rc.1",
         "sweetalert2": "^8.2.6",
         "vform": "^1.0.0",
         "vue-progressbar": "^0.7.5",
-        "vue-router": "^3.0.2"
+        "vue-router": "^3.0.2",
+        "vue-select": "^2.6.0"
     }
 }

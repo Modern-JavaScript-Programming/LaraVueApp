@@ -22,6 +22,10 @@ import VueProgressBar from 'vue-progressbar'
 import swal from 'sweetalert2'
 window.swal = swal
 
+// Import vue-select
+// eslint-disable-next-line import/first
+import VueSelect from 'vue-select'
+
 require('./bootstrap')
 
 window.Vue = require('vue')
@@ -30,6 +34,7 @@ window.Form = Form
 
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
+Vue.component('v-select', VueSelect)
 
 // View Pagination
 Vue.component('pagination', require('laravel-vue-pagination'))
@@ -41,7 +46,8 @@ let routes = [
   { path: '/engagements', component: require('./components/Engagements.vue').default },
   { path: '/engagement_user', component: require('./components/EngagementUser.vue').default },
   { path: '/users', component: require('./components/Users.vue').default },
-  { path: '/profile', component: require('./components/Profile.vue').default }
+  { path: '/profile', component: require('./components/Profile.vue').default },
+  { path: '/testing', component: require('./components/Testing.vue').default }
 ]
 
 const router = new VueRouter({

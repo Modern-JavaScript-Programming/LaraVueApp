@@ -102,6 +102,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <p>Engagement User</p>
                     </router-link>
                   </li>
+                  <li class="nav-item">
+                  <router-link to="/testing" class="nav-link">
+                      <i class="fas fa-rocket nav-icon red"></i>
+                      <p>Engineering</p>
+                    </router-link>
+                  </li>
             </ul>
           </li>
           <li class="nav-item">

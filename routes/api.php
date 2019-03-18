@@ -25,3 +25,5 @@ Route::apiResources([
 
 Route::get('findUser', 'API\UserController@search');
 Route::get('findEngagement', 'API\EngagementController@search');
+Route::get('all-engagements', 'API\EngagementController@loadAllEngagements');
+Route::get('all-users', 'API\UserController@loadAllUsers');
