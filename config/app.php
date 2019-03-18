@@ -13,8 +13,10 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'OTACE Automation'),
 
+
+    'application_name' => env('APPLICATION_NAME', 'OTACE Automation'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

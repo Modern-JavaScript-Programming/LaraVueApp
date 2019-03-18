@@ -19,4 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResources([
     'user' => 'API\UserController',
+    'engagement' => 'API\EngagementController',
+    'engagement-user' => 'API\EngagementUserController',
     ]);
+
+Route::get('findUser', 'API\UserController@search');
+Route::get('findEngagement', 'API\EngagementController@search');

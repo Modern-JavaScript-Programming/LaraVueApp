@@ -1,28 +1,45 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+// Import Moment.js for Date Time filter
+import moment from 'moment'
 
-window.Vue = require('vue');
-
-// eslint-disable-next-line import/first
+// Import vform
 import { Form, HasError, AlertError } from 'vform'
+
+// Import Vue Router
+import VueRouter from 'vue-router'
+
+// Vue Progressbar
+import VueProgressBar from 'vue-progressbar'
+
+// Sweet Alert
+import swal from 'sweetalert2'
+window.swal = swal
+
+require('./bootstrap')
+
+window.Vue = require('vue')
 
 window.Form = Form
 
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
-// eslint-disable-next-line import/first
-import VueRouter from 'vue-router'
+// View Pagination
+Vue.component('pagination', require('laravel-vue-pagination'))
 
 Vue.use(VueRouter)
 
 let routes = [
   { path: '/dashboard', component: require('./components/Dashboard.vue').default },
+  { path: '/engagements', component: require('./components/Engagements.vue').default },
+  { path: '/engagement_user', component: require('./components/EngagementUser.vue').default },
   { path: '/users', component: require('./components/Users.vue').default },
   { path: '/profile', component: require('./components/Profile.vue').default }
 ]
@@ -32,19 +49,34 @@ const router = new VueRouter({
   routes // short for `routes: routes`
 })
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+// Filter
+Vue.filter('upText', function (text) {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+})
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.filter('myDate', function (created) {
+  return moment(created).format('MMMM Do YYYY')
+})
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+// Vue Progressbar
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '3px'
+})
 
+// SweetAlert Notification
+const toast = swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+})
+
+window.toast = toast
+
+// Create a New Vue component
+window.Fire = new Vue()
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -54,4 +86,12 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 const app = new Vue({
   el: '#app',
   router,
-});
+  data: {
+    search: ''
+  },
+  methods: {
+    searchit: _.debounce(() => {
+      Fire.$emit('searching')
+    }, 1000)
+  }
+})

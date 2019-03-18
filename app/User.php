@@ -35,4 +35,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // An Engagement belongs to many Users
+    public function engagement()
+    {
+        return $this->belongsToMany('App\Engagement');
+    }
 }

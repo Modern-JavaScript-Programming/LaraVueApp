@@ -8,9 +8,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-<meta name="csrf-token" content= "{{ csrf_token() }}"">
+<meta name="csrf-token" content= "{{ csrf_token() }}">
 
-<title>AdminLTE 3 | Starter</title>
+<title>{{ config('application_name') }}</title>
 
 <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
@@ -24,27 +24,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
     </ul>
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
+    <!-- Search Functionality -->
+<div class="input-group input-group-sm col-md-6">
+      <input class="form-control form-control-navbar" @keyup="searchit" v-model="search" type="search" placeholder="Search" aria-label="Search">
+      <div class="input-group-append">
+        <button class="btn btn-navbar" @click="searchit">
+              <i class="fa fa-search"></i>
+            </button>
       </div>
-    </form>
-
-    <!-- Right navbar links -->
+    </div>
+    <!-- End of Search Functionality -->
 
   </nav>
   <!-- /.navbar -->
@@ -99,6 +90,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Users</p>
                 </router-link>
               </li>
+              <li class="nav-item">
+                <router-link to="/engagements" class="nav-link">
+                    <i class="fas fa-tasks nav-icon teal"></i>
+                    <p>Engagements</p>
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link to="/engagement_user" class="nav-link">
+                      <i class="fas fa-user-circle nav-icon teal"></i>
+                      <p>Engagement User</p>
+                    </router-link>
+                  </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -140,7 +143,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
       <router-view></router-view>
-        <!-- /.row -->
+      <vue-progress-bar></vue-progress-bar>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->

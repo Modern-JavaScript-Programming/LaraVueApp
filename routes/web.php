@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Route::get('/findUser', 'API\UserController@search');
+
 Route::group(['namespace' => 'Admin'], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('{path}', 'DashboardController@index')->name('dashboard');

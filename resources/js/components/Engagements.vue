@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">User Management</h3>
+            <h3 class="card-title">Engagement Management</h3>
 
             <div class="card-tools">
               <button
@@ -24,22 +24,20 @@
               <tbody>
                 <tr>
                   <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
+                  <th>Status</th>
                   <th>Registered At</th>
                   <th>Modify</th>
                 </tr>
-                <tr v-for="user in users.data" :key="user.id">
-                  <td>{{user.name}}</td>
-                  <td>{{user.email}}</td>
-                  <td>{{user.type | upText}}</td>
-                  <td>{{user.created_at | myDate}}</td>
+                <tr v-for="engagement in engagements.data" :key="engagement.id">
+                  <td>{{engagement.name}}</td>
+                  <td>{{engagement.status | upText}}</td>
+                  <td>{{engagement.created_at | myDate}}</td>
                   <td>
-                    <a href="#" @click="editModal(user)">
+                    <a href="#" @click="editModal(engagement)">
                       <i class="fa fa-edit blue"></i>
                     </a>
                     /
-                    <a href="#" @click="deleteUser(user.id)">
+                    <a href="#" @click="deleteEngagement(engagement.id)">
                         <i class="fa fa-trash red"></i>
                     </a>
                   </td>
@@ -49,7 +47,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <pagination :data="users" @pagination-change-page="getResults"></pagination>
+            <pagination :data="engagements" @pagination-change-page="getResults"></pagination>
           </div>
         </div>
         <!-- /.card -->
@@ -67,20 +65,20 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-                    <h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add New User</h5>
-                    <h5 class="modal-title" v-show="editmode" id="addNewLabel">Update User's Info</h5>
+                    <h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add New Engagement</h5>
+                    <h5 class="modal-title" v-show="editmode" id="addNewLabel">Update Engagement</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form @submit.prevent="editmode ? updateUser() : createUser()">
+          <form @submit.prevent="editmode ? updateEngagement() : createEngagement()">
           <div class="modal-body">
             <div class="form-group">
               <input
                 v-model="form.name"
                 type="text"
                 name="name"
-                placeholder="Name"
+                placeholder="Engagement Name"
                 class="form-control"
                 :class="{ 'is-invalid': form.errors.has('name') }"
               >
@@ -88,56 +86,18 @@
             </div>
 
             <div class="form-group">
-              <input
-                v-model="form.email"
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                class="form-control"
-                :class="{ 'is-invalid': form.errors.has('email') }"
-              >
-              <has-error :form="form" field="email"></has-error>
-            </div>
-
-            <div class="form-group">
-              <input
-                v-model="form.password"
-                type="password"
-                name="password"
-                placeholder="Password"
-                id="password"
-                class="form-control"
-                :class="{ 'is-invalid': form.errors.has('password') }"
-              >
-              <has-error :form="form" field="password"></has-error>
-            </div>
-
-            <div class="form-group">
               <select
-                name="type"
-                v-model="form.type"
-                id="type"
+                name="status"
+                v-model="form.status"
+                id="status"
                 class="form-control"
-                :class="{ 'is-invalid': form.errors.has('type') }"
+                :class="{ 'is-invalid': form.errors.has('status') }"
               >
-                <option value>Select User Role</option>
-                <option value="admin">Admin</option>
-                <option value="financeuser">Finance User</option>
-                <option value="stakeholder">Stakeholder</option>
+                <option value>Select Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
               </select>
-              <has-error :form="form" field="type"></has-error>
-            </div>
-
-            <div class="form-group">
-              <textarea
-                v-model="form.bio"
-                name="bio"
-                id="bio"
-                placeholder="Comment for user (Optional)"
-                class="form-control"
-                :class="{ 'is-invalid': form.errors.has('bio') }"
-              ></textarea>
-              <has-error :form="form" field="bio"></has-error>
+              <has-error :form="form" field="status"></has-error>
             </div>
           </div>
           <div class="modal-footer">
@@ -158,14 +118,11 @@ export default {
 
     return {
       editmode: false,
-      users : {},
+      engagements : {},
       form: new Form({
         id: "",
         name: "",
-        email: "",
-        password: "",
-        type: "",
-        bio: ""
+        status: ""
       })
     };
   },
@@ -173,9 +130,9 @@ export default {
   methods: {
 
     getResults(page = 1) {
-                axios.get('api/user?page=' + page)
+                axios.get('api/engagement?page=' + page)
                     .then(response => {
-                        this.users = response.data;
+                        this.engagements = response.data;
                     });
         },
     newModal(){
@@ -185,27 +142,27 @@ export default {
       $('#addNew').modal('show');
     },
 
-    editModal(user){
+    editModal(engagement){
       this.editmode = true;
       this.form.reset()
       $('#addNew').modal('show');
-      this.form.fill(user);
+      this.form.fill(engagement);
     },
 
-    loadUsers() {
-      axios.get("api/user").then(({ data }) => (this.users = data));
+    loadEngagements() {
+      axios.get("api/engagement").then(({ data }) => (this.engagements = data));
     },
 
-    createUser(){
+    createEngagement(){
         this.$Progress.start();
-        this.form.post('api/user')
+        this.form.post('api/engagement')
         .then(()=>{
             Fire.$emit('AfterCreate');
             $('#addNew').modal('hide')
 
             toast.fire({
                 type: 'success',
-                title: 'User Created in successfully'
+                title: 'Engagement Created in successfully'
                 })
             this.$Progress.finish();
 
@@ -215,9 +172,9 @@ export default {
         })
     },
 
-    updateUser(){
+    updateEngagement(){
         this.$Progress.start();
-        this.form.put('api/user/' + this.form.id)
+        this.form.put('api/engagement/' + this.form.id)
         .then(() => {
             // success
             $('#addNew').modal('hide');
@@ -234,7 +191,7 @@ export default {
         });
 
     },
-    deleteUser(id){
+    deleteEngagement(id){
       swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -247,7 +204,7 @@ export default {
 
       // Send request to the server
         if (result.value) {
-              this.form.delete('api/user/' + id).then(()=>{
+              this.form.delete('api/engagement/' + id).then(()=>{
                       swal.fire(
                       'Deleted!',
                       'Your file has been deleted.',
@@ -266,16 +223,16 @@ export default {
   created() {
             Fire.$on('searching',() => {
                 let query = this.$parent.search;
-                axios.get('api/findUser?q=' + query)
+                axios.get('api/findEngagement?q=' + query)
                 .then((data) => {
-                    this.users = data.data
+                    this.engagements = data.data
                 })
                 .catch(() => {
                 })
             })
-           this.loadUsers();
+           this.loadEngagements();
            Fire.$on('AfterCreate',() => {
-               this.loadUsers();
+               this.loadEngagements();
            });
   }
 };
