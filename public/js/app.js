@@ -1881,15 +1881,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       engagements: {},
       users: {},
-      expanded: false,
       form: new Form({
         engagement_id: "",
-        user_id: ""
+        user_id: []
       })
     };
   },
@@ -1911,13 +1911,27 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     mapUsers: function mapUsers() {
-      console.log('Engagement id is ' + this.form.engagement_id);
-      console.log('User id is ' + this.form.user_id);
+      this.form.engagement_id = $("#engagement").val();
+      this.form.user_id = $("#user").val();
+      console.log("Engagement id is " + this.form.engagement_id);
+      console.log("User id is " + this.form.user_id);
     }
   },
   created: function created() {
     this.loadEngagements();
     this.loadUsers();
+  },
+  mounted: function mounted() {
+    $("#engagement").select2({
+      placeholder: "Select an Engagement",
+      allowClear: true
+    });
+    $("#user").select2({
+      placeholder: "Select an User",
+      maximumSelectionLength: 4,
+      allowClear: true,
+      data: this.user
+    });
   }
 });
 
@@ -2273,27 +2287,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var options = {
-      apples: 'green',
-      bananas: 'yellow',
-      orange: 'orange'
-    };
     return {
-      selected: [],
-      options: options,
-      select2data: [],
       engagements: {},
       users: {},
-      user_id: [],
-      expanded: false,
       form: new Form({
         engagement_id: "",
-        user_id: ""
+        user_id: []
       })
     };
   },
@@ -2315,21 +2316,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     mapUsers: function mapUsers() {
-      console.log("Engagement id is " + this.form.engagement_id);
-      console.log("User id is " + this.selected);
-    },
-    formatOptions: function formatOptions() {
-      this.select2data.push({
-        id: "",
-        text: "Select"
-      });
-
-      for (var key in this.options) {
-        this.select2data.push({
-          id: key,
-          text: this.options[key]
-        });
-      }
+      this.form.engagement_id = $("#engagement").val();
+      this.form.user_id = $("#user").val();
+      this.form.post('api/engagement-user');
     }
   },
   created: function created() {
@@ -2337,21 +2326,16 @@ __webpack_require__.r(__webpack_exports__);
     this.loadUsers();
   },
   mounted: function mounted() {
-    this.formatOptions();
-    var vm = this;
-    var select = $("#user");
     $("#engagement").select2({
       placeholder: "Select an Engagement",
       allowClear: true
     });
     $("#user").select2({
       placeholder: "Select an User",
+      maximumSelectionLength: 4,
       allowClear: true,
-      data: this.select2data
-    }).on("change", function () {
-      vm.$emit("input", select.val());
+      data: this.user
     });
-    select.val(this.value).trigger("change");
   }
 });
 
@@ -66215,7 +66199,11 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         class: { "is-invalid": _vm.form.errors.has("user") },
-                        attrs: { name: "engagement", id: "user" },
+                        attrs: {
+                          name: "user",
+                          multiple: "multiple",
+                          id: "user"
+                        },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -66290,7 +66278,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [_vm._v("Add Engagement User")]),
+      _c("h3", { staticClass: "card-title" }, [
+        _vm._v("Map User to Engagement")
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-tools" })
     ])
@@ -66839,13 +66829,17 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.selected,
-                            expression: "selected"
+                            value: _vm.form.user_id,
+                            expression: "form.user_id"
                           }
                         ],
                         staticClass: "form-control",
                         class: { "is-invalid": _vm.form.errors.has("user") },
-                        attrs: { name: "user", id: "user" },
+                        attrs: {
+                          name: "user",
+                          multiple: "multiple",
+                          id: "user"
+                        },
                         on: {
                           change: function($event) {
                             var $$selectedVal = Array.prototype.filter
@@ -66856,9 +66850,13 @@ var render = function() {
                                 var val = "_value" in o ? o._value : o.value
                                 return val
                               })
-                            _vm.selected = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
+                            _vm.$set(
+                              _vm.form,
+                              "user_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
                           }
                         }
                       },
@@ -66876,37 +66874,6 @@ var render = function() {
                     _vm._v(" "),
                     _c("has-error", {
                       attrs: { form: _vm.form, field: "user" }
-                    }),
-                    _vm._v(" "),
-                    _c("select", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.selected,
-                          expression: "selected"
-                        }
-                      ],
-                      attrs: {
-                        options: _vm.options,
-                        name: "test",
-                        multiple: "true"
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.selected = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
                     })
                   ],
                   1

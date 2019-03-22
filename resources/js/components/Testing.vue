@@ -42,7 +42,8 @@
               <div class="form-group">
                 <select
                   name="user"
-                  v-model="selected"
+                  v-model="form.user_id"
+                  multiple="multiple"
                   id="user"
                   class="form-control"
                   :class="{ 'is-invalid': form.errors.has('user') }"
@@ -55,10 +56,6 @@
                   ></option>
                 </select>
                 <has-error :form="form" field="user"></has-error>
-                <select :options="options" name="test" v-model="selected" multiple=true>
-
-                </select>
-                <!-- <v-select v-model="user_id" label="name" :options="option_users"></v-select> -->
               </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-primary">Map User</button>
@@ -73,24 +70,13 @@
 <script>
 export default {
   data() {
-  const options = {
-  apples: 'green',
-  bananas: 'yellow',
-  orange: 'orange'
-}
     return {
-      selected: [],
-      options,
-      select2data: [],
       engagements: {},
       users: {},
-      user_id: [],
-      expanded: false,
       form: new Form({
         engagement_id: "",
-        user_id: ""
-      }),
-
+        user_id: []
+      })
     };
   },
 
@@ -106,16 +92,10 @@ export default {
     },
 
     mapUsers() {
-      console.log("Engagement id is " + this.form.engagement_id);
-      console.log("User id is " + this.selected);
-    },
-
-    formatOptions() {
-      this.select2data.push({ id: "", text: "Select" });
-      for (let key in this.options) {
-        this.select2data.push({ id: key, text: this.options[key] });
-      }
-    },
+      this.form.engagement_id = $("#engagement").val();
+      this.form.user_id = $("#user").val();
+      this.form.post('api/engagement-user')
+    }
   },
 
   created() {
@@ -124,26 +104,20 @@ export default {
   },
 
   mounted: function() {
-    this.formatOptions();
-    let vm = this;
-  let select = $("#user")
     $("#engagement").select2({
       placeholder: "Select an Engagement",
       allowClear: true
     });
 
-    $("#user")
-      .select2({
-        placeholder: "Select an User",
-        allowClear: true,
-        data: this.select2data
-      })
-      .on("change", function() {
-        vm.$emit("input", select.val());
-      });
-    select.val(this.value).trigger("change");
+    $("#user").select2({
+      placeholder: "Select an User",
+      maximumSelectionLength: 4,
+      allowClear: true,
+      data: this.user
+    });
   }
 };
 </script>
 <style scoped>
+
 </style>

@@ -15,7 +15,7 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Add Engagement User</h3>
+            <h3 class="card-title">Map User to Engagement</h3>
 
             <div class="card-tools"></div>
           </div>
@@ -41,8 +41,9 @@
 
               <div class="form-group">
                 <select
-                  name="engagement"
+                  name="user"
                   v-model="form.user_id"
+                  multiple="multiple"
                   id="user"
                   class="form-control"
                   :class="{ 'is-invalid': form.errors.has('user') }"
@@ -72,10 +73,9 @@ export default {
     return {
       engagements: {},
       users: {},
-      expanded: false,
       form: new Form({
         engagement_id: "",
-        user_id: ""
+        user_id: []
       })
     };
   },
@@ -92,17 +92,34 @@ export default {
     },
 
     mapUsers() {
-      console.log('Engagement id is ' + this.form.engagement_id);
-      console.log('User id is ' + this.form.user_id);
+      this.form.engagement_id = $("#engagement").val();
+      this.form.user_id = $("#user").val();
+
+      console.log("Engagement id is " + this.form.engagement_id);
+      console.log("User id is " + this.form.user_id);
     }
   },
+
   created() {
     this.loadEngagements();
     this.loadUsers();
   },
 
+  mounted: function() {
+    $("#engagement").select2({
+      placeholder: "Select an Engagement",
+      allowClear: true
+    });
 
+    $("#user").select2({
+      placeholder: "Select an User",
+      maximumSelectionLength: 4,
+      allowClear: true,
+      data: this.user
+    });
+  }
 };
 </script>
 <style scoped>
+
 </style>
