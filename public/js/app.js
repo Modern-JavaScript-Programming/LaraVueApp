@@ -1887,6 +1887,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       engagements: {},
       users: {},
+      engagement_user: "",
       form: new Form({
         engagement_id: "",
         user_id: []
@@ -1910,11 +1911,21 @@ __webpack_require__.r(__webpack_exports__);
         return _this2.users = data;
       });
     },
+    loadEngagementUsers: function loadEngagementUsers(engagement_user_id) {
+      var _this3 = this;
+
+      axios.get("api/engagement-user/" + engagement_user_id).then(function (_ref3) {
+        var data = _ref3.data;
+        return _this3.engagement_user = data;
+      });
+    },
+    test: function test() {
+      alert($("#engagement").val());
+    },
     mapUsers: function mapUsers() {
       this.form.engagement_id = $("#engagement").val();
       this.form.user_id = $("#user").val();
-      console.log("Engagement id is " + this.form.engagement_id);
-      console.log("User id is " + this.form.user_id);
+      this.form.post("api/engagement-user");
     }
   },
   created: function created() {
@@ -1926,11 +1937,14 @@ __webpack_require__.r(__webpack_exports__);
       placeholder: "Select an Engagement",
       allowClear: true
     });
+    $("#engagement").on("change", function (e) {
+      var select_val = $(e.currentTarget).val();
+      this.loadEngagementUsers(select_val);
+    }.bind(this));
     $("#user").select2({
       placeholder: "Select an User",
       maximumSelectionLength: 4,
-      allowClear: true,
-      data: this.user
+      allowClear: true
     });
   }
 });
@@ -2292,6 +2306,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       engagements: {},
       users: {},
+      engagement_user: "",
       form: new Form({
         engagement_id: "",
         user_id: []
@@ -2315,10 +2330,21 @@ __webpack_require__.r(__webpack_exports__);
         return _this2.users = data;
       });
     },
+    loadEngagementUsers: function loadEngagementUsers(engagement_user_id) {
+      var _this3 = this;
+
+      axios.get("api/engagement-user/" + engagement_user_id).then(function (_ref3) {
+        var data = _ref3.data;
+        return _this3.engagement_user = data;
+      });
+    },
+    test: function test() {
+      alert($("#engagement").val());
+    },
     mapUsers: function mapUsers() {
       this.form.engagement_id = $("#engagement").val();
       this.form.user_id = $("#user").val();
-      this.form.post('api/engagement-user');
+      this.form.post("api/engagement-user");
     }
   },
   created: function created() {
@@ -2330,11 +2356,14 @@ __webpack_require__.r(__webpack_exports__);
       placeholder: "Select an Engagement",
       allowClear: true
     });
+    $("#engagement").on("change", function (e) {
+      var select_val = $(e.currentTarget).val();
+      this.loadEngagementUsers(select_val);
+    }.bind(this));
     $("#user").select2({
       placeholder: "Select an User",
       maximumSelectionLength: 4,
-      allowClear: true,
-      data: this.user
+      allowClear: true
     });
   }
 });

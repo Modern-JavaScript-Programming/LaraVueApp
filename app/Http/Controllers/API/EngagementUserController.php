@@ -47,6 +47,17 @@ class EngagementUserController extends Controller
      */
     public function show($id)
     {
+        //return Engagement::with('users')->where('id', $id)->get(['id', 'name']);
+
+        $engagement_id = Engagement::find($id);
+
+        $engagement_user = [];
+
+        foreach ($engagement_id->users as $user) {
+            $engagement_user[] = $user->name;
+        }
+
+        return $engagement_user;
     }
 
     /**

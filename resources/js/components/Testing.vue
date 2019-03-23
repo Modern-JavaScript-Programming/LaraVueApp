@@ -73,6 +73,7 @@ export default {
     return {
       engagements: {},
       users: {},
+      engagement_user: "",
       form: new Form({
         engagement_id: "",
         user_id: []
@@ -91,10 +92,20 @@ export default {
       axios.get("api/all-users").then(({ data }) => (this.users = data));
     },
 
+    loadEngagementUsers(engagement_user_id) {
+      axios
+        .get("api/engagement-user/" + engagement_user_id)
+        .then(({ data }) => (this.engagement_user = data));
+    },
+
+    test: function() {
+      alert($("#engagement").val());
+    },
+
     mapUsers() {
       this.form.engagement_id = $("#engagement").val();
       this.form.user_id = $("#user").val();
-      this.form.post('api/engagement-user')
+      this.form.post("api/engagement-user");
     }
   },
 
@@ -109,15 +120,18 @@ export default {
       allowClear: true
     });
 
+    $("#engagement").on("change", function(e) {
+      var select_val = $(e.currentTarget).val();
+      this.loadEngagementUsers(select_val)
+    }.bind(this));
+
     $("#user").select2({
       placeholder: "Select an User",
       maximumSelectionLength: 4,
-      allowClear: true,
-      data: this.user
+      allowClear: true
     });
   }
 };
 </script>
 <style scoped>
-
 </style>
