@@ -205,8 +205,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </footer>
 </div>
 <!-- ./wrapper -->
+<script>
+  @auth
+      window.user = @json(auth()->user())
+  @endauth
+</script>
 
-<!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
 <script src="{{ mix('js/app.js')}}"></script>
