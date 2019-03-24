@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /**
@@ -7,6 +8,10 @@
  */
 
 // Import Moment.js for Date Time filter
+// eslint-disable-next-line import/first
+
+import Vue from 'vue'
+
 import moment from 'moment'
 
 // Import vform
@@ -20,15 +25,20 @@ import VueProgressBar from 'vue-progressbar'
 
 // Sweet Alert
 import swal from 'sweetalert2'
+
 window.swal = swal
 
-// Import vue-select
-// eslint-disable-next-line import/first
+window.Vue = Vue
+
 import VueSelect from 'vue-select'
+
+import Gate from './Gate'
+
+Vue.prototype.$gate = new Gate(window.user)
 
 require('./bootstrap')
 
-window.Vue = require('vue')
+// window.Vue = require('vue')
 
 window.Form = Form
 
@@ -43,9 +53,10 @@ Vue.use(VueRouter)
 
 let routes = [
   { path: '/dashboard', component: require('./components/Dashboard.vue').default },
+  { path: '/users', component: require('./components/Users.vue').default },
   { path: '/engagements', component: require('./components/Engagements.vue').default },
   { path: '/engagement_user', component: require('./components/EngagementUser.vue').default },
-  { path: '/users', component: require('./components/Users.vue').default },
+  { path: '/otace', component: require('./components/Otace.vue').default },
   { path: '/profile', component: require('./components/Profile.vue').default },
   { path: '/testing', component: require('./components/Testing.vue').default }
 ]

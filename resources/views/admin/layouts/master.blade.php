@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cog green"></i>
               <p>
-                Management
+                User Management
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
@@ -99,17 +99,52 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item">
                   <router-link to="/engagement_user" class="nav-link">
                       <i class="fas fa-user-circle nav-icon teal"></i>
-                      <p>Engagement User</p>
+                      <p>User Mapping</p>
                     </router-link>
                   </li>
-                  <li class="nav-item">
-                  <router-link to="/testing" class="nav-link">
-                      <i class="fas fa-rocket nav-icon red"></i>
-                      <p>Engineering</p>
-                    </router-link>
-                  </li>
+
             </ul>
           </li>
+
+          <!--- Section for OTACE Management-->
+          <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cog green"></i>
+                <p>
+                  OTACE Management
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                      <router-link to="/otace" class="nav-link">
+                          <i class="fas fa-rocket nav-icon red"></i>
+                          <p>OTACE Form</p>
+                      </router-link>
+                  </li>
+              </ul>
+          </li>
+          <!-- End of Testing -->
+
+          <!--- Section for Testing -->
+          <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cog green"></i>
+                <p>
+                  Developer Area
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                      <router-link to="/testing" class="nav-link">
+                          <i class="fas fa-rocket nav-icon red"></i>
+                          <p>Testing</p>
+                      </router-link>
+                  </li>
+              </ul>
+          </li>
+          <!-- End of Testing -->
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">
               <i class="nav-icon fas fa-user orange"></i>
