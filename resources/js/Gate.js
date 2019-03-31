@@ -15,8 +15,8 @@ export default class Gate {
     return this.user.type === 'engagement-lead'
   }
 
-  isFinanceUser () {
-    return this.user.type === 'financeuser'
+  isFinancial () {
+    return this.user.type === 'financial'
   }
 
   isStakeholder () {

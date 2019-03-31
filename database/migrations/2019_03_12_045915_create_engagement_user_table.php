@@ -17,8 +17,8 @@ class CreateEngagementUserTable extends Migration
         Schema::create('engagement_user', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('engagement_id');
+            $table->unsignedInteger('user_id')->index();
+            $table->unsignedInteger('engagement_id')->index();
             $table->timestamps();
         });
 
@@ -26,12 +26,14 @@ class CreateEngagementUserTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
 
             $table->foreign('engagement_id')
                 ->references('id')
                 ->on('engagements')
-                ->onDelete('cascade');
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
         });
     }
 

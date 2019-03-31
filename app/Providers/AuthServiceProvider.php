@@ -35,8 +35,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->type === 'engagement-lead';
         });
 
-        Gate::define('isFinanceUser', function ($user) {
-            return $user->type === 'financeuser';
+        Gate::define('isFinance', function ($user) {
+            return $user->type === 'financial';
         });
 
         Gate::define('isStakeholder', function ($user) {

@@ -49,6 +49,9 @@ Vue.component('v-select', VueSelect)
 // View Pagination
 Vue.component('pagination', require('laravel-vue-pagination'))
 
+// Import NotFound vue component
+Vue.component('not-found', require('./components/NotFound.vue').default)
+
 Vue.use(VueRouter)
 
 let routes = [

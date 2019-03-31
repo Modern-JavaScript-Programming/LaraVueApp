@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row mt-2" v-if="$gate.isAdmin()">
+    <div class="row mt-2" v-if="$gate.isSuperAdmin()">
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
@@ -52,7 +52,7 @@
                     v-for="user in users"
                     :key="user.id"
                     v-bind:value="user.id"
-                    v-text="user.name"
+                    v-text="`${user.first_name} ${user.last_name}`"
                   ></option>
                 </select>
                 <has-error :form="form" field="user"></has-error>
@@ -95,17 +95,23 @@ export default {
     loadEngagementUsers(engagement_user_id) {
       axios
         .get("api/engagement-user/" + engagement_user_id)
-        .then(({ data }) => (this.engagement_user = data));
-    },
-
-    test: function() {
-      alert($("#engagement").val());
+        .then(({ data }) => (this.users = data));
     },
 
     mapUsers() {
-      this.form.engagement_id = $("#engagement").val();
-      this.form.user_id = $("#user").val();
-      this.form.post("api/engagement-user");
+      this.form.user_id = $("#user").select2("val");
+      this.form
+        .post("api/engagement-user")
+        .then(() => {
+          //Fire.$emit("AfterCreate");
+          toast.fire({
+            type: "success",
+            title: "Mapping done successfully"
+          });
+        })
+        .catch(() => {
+          swal.fire("Failed!", "There was something wrong.", "error");
+        });
     }
   },
 
@@ -120,10 +126,11 @@ export default {
       allowClear: true
     });
 
-    $("#engagement").on("change", function(e) {
-      var select_val = $(e.currentTarget).val();
-      this.loadEngagementUsers(select_val)
-    }.bind(this));
+    $("#engagement").on("select2:select", function(e) {
+      let _response = e.params.data;
+      this.loadEngagementUsers(_response.id);
+      this.form.engagement_id = _response.id
+    }.bind(this))
 
     $("#user").select2({
       placeholder: "Select an User",
