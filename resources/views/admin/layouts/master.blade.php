@@ -83,7 +83,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-cog green"></i>
+                <i class="nav-icon fas fa-user-edit green"></i>
                 <p>
                   User Management
                   <i class="right fa fa-angle-left"></i>
@@ -114,7 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!--- Section for OTACE Management-->
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-cog green"></i>
+                <i class="nav-icon fas fa-table green"></i>
                 <p>
                   OTACE Management
                   <i class="right fa fa-angle-left"></i>
@@ -124,7 +124,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Otace Criteria Sections, Subsections and Question Entry Form-->
                 <li class="nav-item has-treeview">
                   <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-cog green"></i>
+                    <i class="nav-icon fas fa-calendar-plus green"></i>
                     <p>
                       Criteria Entry
                       <i class="right fa fa-angle-left"></i>
@@ -133,13 +133,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <ul class="nav nav-treeview">
                     <li class="nav-item">
                       <router-link to="/otace_criteria_sections" class="nav-link">
-                        <i class="fas fa-rocket nav-icon red"></i>
+                        <i class="fas fa-newspaper nav-icon blue"></i>
                         <p>Criteria Sections</p>
                       </router-link>
                     </li>
                     <li class="nav-item">
                       <router-link to="/otace_criteria_subsections" class="nav-link">
-                        <i class="fas fa-rocket nav-icon red"></i>
+                        <i class="fas fa-newspaper nav-icon blue"></i>
                         <p>Criteria Subsections</p>
                       </router-link>
                     </li>
