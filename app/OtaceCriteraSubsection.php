@@ -14,7 +14,7 @@ class OtaceCriteriaSubsection extends Model
      * @var array
      */
     protected $fillable = [
-        'section_id', 'subsection', 'subsection_desc'
+        'section_id', 'subsection_name', 'subsection_desc', 'rating'
     ];
 
     public function section()

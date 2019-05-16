@@ -27,7 +27,13 @@ class OtaceCriteriaSectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'section_name' => 'required|string|max:191',
+        ]);
+
+        return OtaceCriteriaSection::create([
+            'section_name' => $request['section_name']
+        ]);
     }
 
     /**
@@ -50,7 +56,15 @@ class OtaceCriteriaSectionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $otace_criteria_section = OtaceCriteriaSection::findOrFail($id);
+
+        $this->validate($request, [
+            'section_name' => 'required|string|max:191',
+        ]);
+
+        $otace_criteria_section->update($request->all());
+
+        return ['message' => 'Criteria Section Updated'];
     }
 
     /**
@@ -61,6 +75,26 @@ class OtaceCriteriaSectionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $otace_criteria_section = OtaceCriteriaSection::findOrFail($id);
+
+        $otace_criteria_section->delete();
+
+        return ['message' => 'Criteria Section Deleted'];
+    }
+
+    /**
+     * Search Functionality.
+     */
+    public function search()
+    {
+        if ($search = \Request::get('q')) {
+            $otace_criteria_section = OtaceCriteriaSection::where(function ($query) use ($search) {
+                $query->where('section_name', 'LIKE', "%$search%");
+            })->paginate(20);
+        } else {
+            $otace_criteria_section = OtaceCriteriaSection::latest()->paginate(5);
+        }
+
+        return $otace_criteria_section;
     }
 }

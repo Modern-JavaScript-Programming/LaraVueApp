@@ -36,3 +36,9 @@ Route::get('loadAllEngagementsUsers', 'API\EngagementUserController@loadAllEngag
 // Engagements resource routes
 Route::get('findEngagement', 'API\EngagementController@search');
 Route::get('all-engagements', 'API\EngagementController@loadAllEngagements');
+
+// Otace Criteria Section
+Route::get('findSections', 'API\OtaceCriteriaSectionController@search');
+
+// Otace Criteria Subsection
+Route::get('findSubsections', 'API\OtaceCriteriaSubSectionController@search');

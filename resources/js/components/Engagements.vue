@@ -109,6 +109,7 @@
         </div>
       </div>
     </div>
+    <!-- End of Modal -->
   </div>
 </template>
 
