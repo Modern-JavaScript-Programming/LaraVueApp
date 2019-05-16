@@ -20,11 +20,14 @@ class UserController extends Controller
     }
 
     /**
-     * Load all users.
+     * Load all Stakeholder and Engagement Lead
+     *
      */
     public function loadAllUsers()
     {
-        return User::where('type', '=', 'stakeholder')->get(['id', 'name']);
+        return User::where('type', '=', 'stakeholder')
+        ->orwhere('type', '=', 'engagement-lead')
+        ->get(['id', 'name', 'first_name', 'last_name']);
     }
 
     /**
@@ -38,12 +41,16 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:191',
+            'first_name' => 'required|string|max:191',
+            'last_name' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
         return User::create([
             'name' => $request['name'],
+            'first_name' => $request['first_name'],
+            'last_name' => $request['last_name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'type' => $request['type'],
@@ -76,6 +83,8 @@ class UserController extends Controller
 
         $this->validate($request, [
             'name' => 'required|string|max:191',
+            'first_name' => 'required|string|max:191',
+            'last_name' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
             'password' => 'sometimes|string|min:8',
         ]);

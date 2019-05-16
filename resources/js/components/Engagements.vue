@@ -212,7 +212,7 @@ export default {
                       )
                   Fire.$emit('AfterCreate');
               }).catch(()=> {
-                  swal("Failed!", "There was something wronge.", "warning");
+                  swal.fire("Failed!", "There was something wrong.", "error");
               });
         }
         })

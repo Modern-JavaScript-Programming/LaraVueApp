@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Engagement;
+use App\User;
 
 class EngagementUserController extends Controller
 {
@@ -47,6 +48,26 @@ class EngagementUserController extends Controller
      */
     public function show($id)
     {
+        //return Engagement::with('users')->where('id', $id)->get(['id', 'name']);
+
+        $_engagement_id = Engagement::find($id);
+
+        $_user_id = [];
+
+        foreach ($_engagement_id->users as $user) {
+            $_user_id[] = $user->id;
+        }
+
+        if (count($_user_id) >= 1) {
+            $_not_engaged_user = User::whereIn('type', ['engagement-lead','stakeholder'])
+                                ->whereNotIn('id', $_user_id)
+                                ->get(['id', 'name','first_name','last_name']);
+        }
+        else {
+            $_not_engaged_user =  User::whereIn('type', ['engagement-lead','stakeholder'])
+                                    ->get(['id', 'name','first_name','last_name']);
+        }
+        return $_not_engaged_user;
     }
 
     /**
@@ -70,5 +91,14 @@ class EngagementUserController extends Controller
      */
     public function destroy($id)
     {
+    }
+
+    /**
+     * Load All Engagement Users
+    */
+    public function loadAllEngagementsUsers()
+    {
+        //return Engagement::withCount('users')->get();
+        return Engagement::withCount('users')->having('users_count', '>', 0)->get();
     }
 }

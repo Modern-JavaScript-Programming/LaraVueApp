@@ -1,14 +1,25 @@
 <template>
   <div class="container">
-    <div class="row mt-2">
+    <div class="row mt-2" v-if="$gate.isSuperAdmin()">
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">View Engagement User</h3>
-
-            <div class="card-tools"></div>
           </div>
-          <div class="card-body">Engagement along with assigned user</div>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <th>Engagement</th>
+                  <th>Assigned Users</th>
+                </tr>
+                  <tr v-for="engagement_user in engagements_users" :key="engagement_id">
+                  <td>{{engagement_user.name }}</td>
+                  <td>( {{ engagement_user.users_count}} )</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -52,7 +63,7 @@
                     v-for="user in users"
                     :key="user.id"
                     v-bind:value="user.id"
-                    v-text="user.name"
+                    v-text="`${user.first_name} ${user.last_name}`"
                   ></option>
                 </select>
                 <has-error :form="form" field="user"></has-error>
@@ -72,7 +83,9 @@ export default {
   data() {
     return {
       engagements: {},
+      engagements_users: {},
       users: {},
+      engagement_user: "",
       form: new Form({
         engagement_id: "",
         user_id: []
@@ -91,16 +104,39 @@ export default {
       axios.get("api/all-users").then(({ data }) => (this.users = data));
     },
 
+    loadEngagementUsers(engagement_user_id) {
+      axios
+        .get("api/engagement-user/" + engagement_user_id)
+        .then(({ data }) => (this.users = data));
+    },
+
+    loadAllEngagementsUsers() {
+      axios
+        .get("api/loadAllEngagementsUsers")
+        .then(({ data }) => (this.engagements_users = data));
+    },
+
     mapUsers() {
-      this.form.engagement_id = $("#engagement").val();
-      this.form.user_id = $("#user").val();
-      this.form.post('api/engagement-user')
+      this.form.user_id = $("#user").select2("val");
+      this.form
+        .post("api/engagement-user")
+        .then(() => {
+          //Fire.$emit("AfterCreate");
+          toast.fire({
+            type: "success",
+            title: "Mapping done successfully"
+          });
+        })
+        .catch(() => {
+          swal.fire("Failed!", "There was something wrong.", "error");
+        });
     }
   },
 
   created() {
     this.loadEngagements();
     this.loadUsers();
+    this.loadAllEngagementsUsers();
   },
 
   mounted: function() {
@@ -109,15 +145,22 @@ export default {
       allowClear: true
     });
 
+    $("#engagement").on(
+      "select2:select",
+      function(e) {
+        let _response = e.params.data;
+        this.loadEngagementUsers(_response.id);
+        this.form.engagement_id = _response.id;
+      }.bind(this)
+    );
+
     $("#user").select2({
       placeholder: "Select an User",
       maximumSelectionLength: 4,
-      allowClear: true,
-      data: this.user
+      allowClear: true
     });
   }
 };
 </script>
 <style scoped>
-
 </style>
