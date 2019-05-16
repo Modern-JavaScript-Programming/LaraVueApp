@@ -60,6 +60,8 @@ let routes = [
   { path: '/engagements', component: require('./components/Engagements.vue').default },
   { path: '/engagement_user', component: require('./components/EngagementUser.vue').default },
   { path: '/otace', component: require('./components/Otace.vue').default },
+  { path: '/otace_criteria_sections', component: require('./components/OtaceCriteriaSections.vue').default },
+  { path: '/otace_criteria_subsections', component: require('./components/OtaceCriteriaSubsections.vue').default },
   { path: '/profile', component: require('./components/Profile.vue').default },
   { path: '/testing', component: require('./components/Testing.vue').default }
 ]

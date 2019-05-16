@@ -5,10 +5,21 @@
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">View Engagement User</h3>
-
-            <div class="card-tools"></div>
           </div>
-          <div class="card-body">Engagement along with assigned user</div>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <th>Engagement</th>
+                  <th>Assigned Users</th>
+                </tr>
+                  <tr v-for="engagement_user in engagements_users" :key="engagement_id">
+                  <td>{{engagement_user.name }}</td>
+                  <td>( {{ engagement_user.users_count}} )</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -72,6 +83,7 @@ export default {
   data() {
     return {
       engagements: {},
+      engagements_users: {},
       users: {},
       engagement_user: "",
       form: new Form({
@@ -98,6 +110,12 @@ export default {
         .then(({ data }) => (this.users = data));
     },
 
+    loadAllEngagementsUsers() {
+      axios
+        .get("api/loadAllEngagementsUsers")
+        .then(({ data }) => (this.engagements_users = data));
+    },
+
     mapUsers() {
       this.form.user_id = $("#user").select2("val");
       this.form
@@ -118,6 +136,7 @@ export default {
   created() {
     this.loadEngagements();
     this.loadUsers();
+    this.loadAllEngagementsUsers();
   },
 
   mounted: function() {
@@ -126,11 +145,14 @@ export default {
       allowClear: true
     });
 
-    $("#engagement").on("select2:select", function(e) {
-      let _response = e.params.data;
-      this.loadEngagementUsers(_response.id);
-      this.form.engagement_id = _response.id
-    }.bind(this))
+    $("#engagement").on(
+      "select2:select",
+      function(e) {
+        let _response = e.params.data;
+        this.loadEngagementUsers(_response.id);
+        this.form.engagement_id = _response.id;
+      }.bind(this)
+    );
 
     $("#user").select2({
       placeholder: "Select an User",

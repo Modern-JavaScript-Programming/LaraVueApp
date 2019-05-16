@@ -30,11 +30,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <!-- Search Functionality -->
       <div class="input-group input-group-sm col-md-6">
-        <input class="form-control form-control-navbar" @keyup="searchit" v-model="search" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" @keyup="searchit" v-model="search" type="search"
+          placeholder="Search" aria-label="Search">
         <div class="input-group-append">
           <button class="btn btn-navbar" @click="searchit">
-              <i class="fa fa-search"></i>
-            </button>
+            <i class="fa fa-search"></i>
+          </button>
         </div>
       </div>
       <!-- End of Search Functionality -->
@@ -46,10 +47,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index3.html" class="brand-link">
-      <img src="./img/admin-logo.png" alt="Otace Dashboard" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light">Otace Dashboard</span>
-    </a>
+        <img src="./img/admin-logo.png" alt="Otace Dashboard" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+        <span class="brand-text font-weight-light">Otace Dashboard</span>
+      </a>
 
       <!-- Sidebar -->
       <div class="sidebar">
@@ -60,8 +61,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
           <div class="info">
             <a href="#" class="d-block">{{ Auth::user()->name }}
-            <p> {{ Auth::user()->type }}</p>
-          </a>
+              <p> {{ Auth::user()->type }}</p>
+            </a>
 
           </div>
         </div>
@@ -82,12 +83,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-cog green"></i>
-              <p>
-                User Management
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
+                <i class="nav-icon fas fa-cog green"></i>
+                <p>
+                  User Management
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <router-link to="/users" class="nav-link">
@@ -110,7 +111,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               </ul>
             </li>
-
             <!--- Section for OTACE Management-->
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
@@ -121,46 +121,66 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <router-link to="/otace" class="nav-link">
-                    <i class="fas fa-rocket nav-icon red"></i>
-                    <p>OTACE Form</p>
-                  </router-link>
+                <!-- Otace Criteria Sections, Subsections and Question Entry Form-->
+                <li class="nav-item has-treeview">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-cog green"></i>
+                    <p>
+                      Criteria Entry
+                      <i class="right fa fa-angle-left"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <router-link to="/otace_criteria_sections" class="nav-link">
+                        <i class="fas fa-rocket nav-icon red"></i>
+                        <p>Criteria Sections</p>
+                      </router-link>
+                    </li>
+                    <li class="nav-item">
+                      <router-link to="/otace_criteria_subsections" class="nav-link">
+                        <i class="fas fa-rocket nav-icon red"></i>
+                        <p>Criteria Subsections</p>
+                      </router-link>
+                    </li>
                 </li>
               </ul>
-            </li>
-            <!-- End of OTACE Management -->
-            @can('isSuperAdmin')
-            <!--- Section for Testing -->
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-cog green"></i>
-                <p>
-                  Developer Area
-                  <i class="right fa fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <router-link to="/testing" class="nav-link">
-                    <i class="fas fa-rocket nav-icon red"></i>
-                    <p>Testing</p>
-                  </router-link>
-                </li>
-              </ul>
-            </li>
-            <!-- End of Testing -->
-            @endcan
-            <li class="nav-item">
-              <router-link to="/profile" class="nav-link">
-                <i class="nav-icon fas fa-user orange"></i>
-                <p>
-                  Profile
-                </p>
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+
+              <!-- End of Otace Criteria -->
+          </ul>
+          </li>
+          <!-- End of OTACE Management -->
+          @can('isSuperAdmin')
+          <!--- Section for Testing -->
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cog green"></i>
+              <p>
+                Developer Area
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/testing" class="nav-link">
+                  <i class="fas fa-rocket nav-icon red"></i>
+                  <p>Testing</p>
+                </router-link>
+              </li>
+            </ul>
+          </li>
+          <!-- End of Testing -->
+          @endcan
+          <li class="nav-item">
+            <router-link to="/profile" class="nav-link">
+              <i class="nav-icon fas fa-user orange"></i>
+              <p>
+                Profile
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
               document.getElementById('logout-form').submit();">
               <i class="nav-icon fas fa-power-off red"></i>
               <P>
@@ -168,10 +188,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </P>
             </a>
 
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-              </form>
-            </li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+            </form>
+          </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

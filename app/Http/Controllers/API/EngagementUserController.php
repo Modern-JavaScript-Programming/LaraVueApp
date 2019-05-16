@@ -98,6 +98,7 @@ class EngagementUserController extends Controller
     */
     public function loadAllEngagementsUsers()
     {
-        return Engagement::withCount('users')->get();
+        //return Engagement::withCount('users')->get();
+        return Engagement::withCount('users')->having('users_count', '>', 0)->get();
     }
 }

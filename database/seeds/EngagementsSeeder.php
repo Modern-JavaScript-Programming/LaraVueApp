@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Illuminate\Database\Seeder;
 use App\Engagement;
@@ -16,47 +17,35 @@ class EngagementsSeeder extends Seeder
     {
         //*************** IMPORTANT NOTES *******************/
         //Following records only for test and need to be deleted before making live
-        $engagement = new Engagement();
-        $engagement->name = 'Sogeti';
-        $engagement->status = 'Active';
-        $engagement->save();
-
-        $engagement = new Engagement();
-        $engagement->name = 'United Kingdom';
-        $engagement->status = 'Active';
-        $engagement->save();
-
-        $engagement = new Engagement();
-        $engagement->name = 'Netherland';
-        $engagement->status = 'Active';
-        $engagement->save();
-
-        $engagement = new Engagement();
-        $engagement->name = 'Germany';
-        $engagement->status = 'Active';
-        $engagement->save();
-
-        $engagement = new Engagement();
-        $engagement->name = 'ODS';
-        $engagement->status = 'Active';
-        $engagement->save();
-
-        //$engagementId = DB::getPdo()->lastInsertId();
-
-        //$user = User::where("email", "arup.sarkar@capgemini.com")->first();
-
-/*      $engagementUser = new EngagementUser();
-        $engagementUser->engagement()->associate($engagement);
-        $engagementUser->user()->associate($user);
-        $engagementUser->status = 'Active';
-        $engagementUser->save(); */
-
-        //$user = User::where("email", "kaushik.a.sarkar@capgemini.com")->first();
-
-/*      $engagementUser = new EngagementUser();
-        $engagementUser->engagement()->associate($engagement);
-        $engagementUser->user()->associate($user);
-        $engagementUser->status = 'Active';
-        $engagementUser->save(); */
+        $engagementArr = array(
+            array('name' => 'Business Services', 'status' => 'Active'),
+            array('name' => 'sogeti UK', 'status' => 'Active'),
+            array('name' => 'India Marcom', 'status' => 'Active'),
+            array('name' => 'Australia', 'status' => 'Active'),
+            array('name' => 'France', 'status' => 'Active'),
+            array('name' => 'University', 'status' => 'Active'),
+            array('name' => 'Germany', 'status' => 'Active'),
+            array('name' => 'Netherlands', 'status' => 'Active'),
+            array('name' => 'Italy', 'status' => 'Active'),
+            array('name' => 'Finland', 'status' => 'Active'),
+            array('name' => 'Sogeti', 'status' => 'Active'),
+            array('name' => 'Poland', 'status' => 'Active'),
+            array('name' => 'Mexico', 'status' => 'Active'),
+            array('name' => 'Sogeti NL', 'status' => 'Active'),
+            array('name' => 'Odigo', 'status' => 'Active'),
+            array('name' => 'Denmark', 'status' => 'Active'),
+            array('name' => 'Group', 'status' => 'Active'),
+            array('name' => 'Japan', 'status' => 'Active'),
+            array('name' => 'Group Sales', 'status' => 'Active'),
+            array('name' => 'Belgium', 'status' => 'Active'),
+            array('name' => 'UK CSR', 'status' => 'Active'),
+            array('name' => 'CIS', 'status' => 'Active'),
+            array('name' => 'Sogeti France', 'status' => 'Active'),
+            array('name' => 'ODS', 'status' => 'Active'),
+            array('name' => 'MACS Adminstration', 'status' => 'Active'),
+            array('name' => 'sogeti US', 'status' => 'Active'),
+            array('name' => 'Scandinavia', 'status' => 'Active'),
+        );
+        Engagement::insert($engagementArr);
     }
 }
